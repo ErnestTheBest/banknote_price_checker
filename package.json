@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node banknote_price_checker/index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
