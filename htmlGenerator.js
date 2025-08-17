@@ -1,5 +1,6 @@
 function generateHtmlTable(title, results) {
   const columns = [
+    { key: 'number', label: '#' },
     { key: 'title', label: 'Title' },
     { key: 'price', label: 'Price' },
     { key: 'actual_price', label: 'Actual Price' },
@@ -54,8 +55,9 @@ function generateHtmlTable(title, results) {
       </tr>
     </thead>
     <tbody>
-      ${results.map(item => `
+      ${results.map((item, index) => `
         <tr>
+          <td>${index + 1}</td>
           <td>${item.title || ''}</td>
           <td>${item.price || ''}</td>
           <td>${item.actual_price || ''}</td>
@@ -133,8 +135,12 @@ function generateHtmlTable(title, results) {
 
       function getCellValue(row, columnIndex) {
         const cell = row.cells[columnIndex];
+        // For numbering column, return the numeric value
+        if (columnIndex === 0) { // Number column
+          return parseInt(cell.textContent) || 0;
+        }
         // For URL column, get the href value
-        if (columnIndex === 5) { // URL column (updated index)
+        if (columnIndex === 6) { // URL column (updated index)
           const link = cell.querySelector('a');
           return link ? link.href : cell.textContent;
         }
