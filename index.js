@@ -8,18 +8,61 @@ const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
 const BASE_URL = 'https://veikals.banknote.lv/lv/';
 
+// Ensure the URL contains the correct page query param
+function withPageParam(pathAndQuery, pageNumber) {
+  const [pathOnly, queryString = ''] = pathAndQuery.split('?');
+  const params = new URLSearchParams(queryString);
+  params.set('page', String(pageNumber));
+  const serialized = params.toString();
+  return serialized ? `${pathOnly}?${serialized}` : pathOnly;
+}
+
 async function fetchAndFilter({ filter, max_price, search_params, exclude_params = [], city }) {
-  const url = BASE_URL + filter;
   try {
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; BanknotePriceChecker/1.0)'
+    let page = 1;
+    let aggregated = [];
+    let to = 0;
+    let total = Infinity;
+
+    // Fetch all pages until API indicates we've reached total
+    while (to < total) {
+      const url = BASE_URL + withPageParam(filter, page);
+      const response = await axios.get(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; BanknotePriceChecker/1.0)'
+        }
+      });
+
+      const pageData = (response && response.data && Array.isArray(response.data.data)) ? response.data.data : [];
+      aggregated = aggregated.concat(pageData);
+
+      // Prefer API-provided counters, fallback to our aggregated length when missing
+      to = typeof response?.data?.to === 'number' ? response.data.to : aggregated.length;
+      total = typeof response?.data?.total === 'number' ? response.data.total : to; // if missing, assume done
+
+      // Safety to prevent endless loops if the API behaves unexpectedly
+      if (!pageData.length && to < total) {
+        break;
       }
-    });
-    const data = response.data.data || [];
+
+      // If the API also provides last_page and we're past it, stop
+      const lastPage = typeof response?.data?.last_page === 'number' ? response.data.last_page : undefined;
+      if (lastPage && page >= lastPage) {
+        // Ensure counters align when last_page is authoritative
+        to = total = aggregated.length;
+        break;
+      }
+
+      if (to < total) {
+        page += 1;
+      } else {
+        break;
+      }
+    }
+
     // Filter by max_price, search_params, exclude_params, and city
-    const filtered = data.filter(item => {
-      const price = parseFloat(item.actual_price || item.price || 0);
+    const filtered = aggregated.filter(item => {
+      const price = parseFloat(item.price || 0);
       const matchesPrice = price <= max_price;
       const matchesSearch = search_params.some(param =>
         (item.article && item.article.toString().includes(param)) ||
@@ -36,7 +79,7 @@ async function fetchAndFilter({ filter, max_price, search_params, exclude_params
     });
     return filtered;
   } catch (err) {
-    console.error(`Error fetching ${url}:`, err.message);
+    console.error('Error during fetchAndFilter:', err.message);
     return [];
   }
 }
