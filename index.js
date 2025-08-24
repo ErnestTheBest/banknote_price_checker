@@ -19,7 +19,7 @@ async function fetchAndFilter({ filter, max_price, search_params, exclude_params
     const data = response.data.data || [];
     // Filter by max_price, search_params, exclude_params, and city
     const filtered = data.filter(item => {
-      const price = parseFloat(item.actual_price || item.price || 0);
+      const price = parseFloat(item.price || 0);
       const matchesPrice = price <= max_price;
       const matchesSearch = search_params.some(param =>
         (item.article && item.article.toString().includes(param)) ||

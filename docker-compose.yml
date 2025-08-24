@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  banknote-checker:
+    build: .
+    container_name: banknote-price-checker
+    volumes:
+      # Mount the results directory so you can see the output files on your host machine
+      - ./results:/app/results
+    environment:
+      # You can add environment variables here if needed
+      - NODE_ENV=production
+    # Remove the container after it finishes running
+    restart: "no"
