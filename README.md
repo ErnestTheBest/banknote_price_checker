@@ -26,6 +26,13 @@ Results will be saved in the `results/` directory, with one file per config entr
 
 The HTML generation logic is modularized in `htmlGenerator.js`. You can customize the table output by editing this file.
 
+### Pagination
+- The fetcher automatically paginates by adding/incrementing the `page` query parameter and requesting pages `1, 2, ...` until the API indicates all items are returned (when `to === total`) or the optional `last_page` is reached.
+- You do not need to include `page` in your `filter` URL; if present, it will be overwritten during pagination.
+- Example source endpoints used during pagination:
+  - `https://veikals.banknote.lv/lv/filter-products?page=1&per_page=120&search=macbook&min_price=0&max_price=9500`
+  - `https://veikals.banknote.lv/lv/filter-products?page=2&per_page=120&search=macbook&min_price=0&max_price=9500`
+
 ## Configuration: `config.json`
 
 The `config.json` file is an array of filter objects. Each object can have the following fields:
@@ -36,6 +43,10 @@ The `config.json` file is an array of filter objects. Each object can have the f
 - `search_params` (array of strings, required): List of keywords or article numbers to search for in the product title or article.
 - `exclude_params` (array of strings, optional): List of keywords to exclude from results (e.g., to skip certain models).
 - `city` (string, optional): Only include results from branches in this city (case-insensitive, matches substring).
+
+Notes:
+- The `page` parameter is managed automatically by the script during pagination and can be omitted from your `filter`.
+- The price threshold compares against the product's `price` field.
 
 ### Example `config.json`
 ```json
