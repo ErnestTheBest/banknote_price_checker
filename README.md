@@ -13,10 +13,31 @@ This tool checks prices for products on veikals.banknote.lv using custom filters
 
 ## Usage
 
+### Option 1: Run with Node.js
 To run the script:
 ```sh
 npm start
 ```
+
+### Option 2: Run with Docker
+If you have Docker installed, you can run the application in a container:
+
+**Build and run:**
+```sh
+docker-compose up --build
+```
+
+**Run without rebuilding (if already built):**
+```sh
+docker-compose up
+```
+
+**Stop the container:**
+```sh
+docker-compose down
+```
+
+For more detailed Docker instructions, see [DOCKER_README.md](DOCKER_README.md).
 
 Results will be saved in the `results/` directory, with one file per config entry.
 
