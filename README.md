@@ -19,25 +19,23 @@ To run the script:
 npm start
 ```
 
-### Option 2: Run with Docker
-If you have Docker installed, you can run the application in a container:
+### Option 2: Run with Docker Compose (no Dockerfile)
+If you have Docker installed, you can run the application in a container using a prebuilt Node image:
 
-**Build and run:**
-```sh
-docker-compose up --build
-```
-
-**Run without rebuilding (if already built):**
+**Start:**
 ```sh
 docker-compose up
 ```
 
-**Stop the container:**
+**Run in background:**
+```sh
+docker-compose up -d
+```
+
+**Stop:**
 ```sh
 docker-compose down
 ```
-
-For more detailed Docker instructions, see [DOCKER_README.md](DOCKER_README.md).
 
 Results will be saved in the `results/` directory, with one file per config entry.
 
