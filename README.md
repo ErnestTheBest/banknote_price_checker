@@ -2,6 +2,14 @@
 
 This tool checks prices for products on veikals.banknote.lv using custom filters and outputs results to separate files in both JSON and HTML formats.
 
+## Generated Reports
+
+- [Iphone Results](./results/iphone_results.html)
+- [MacBook Results](./results/macbook_results.html)
+
+# Banknote Price Checker
+
+This project automatically checks for product prices on banknote.lv and
 ## Installation
 
 1. **Clone or download this repository.**
