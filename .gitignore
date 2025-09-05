@@ -3,7 +3,7 @@ node_modules/
 
 # Output results
 dist/
-results/
+results/*.json
 
 # Logs
 npm-debug.log*

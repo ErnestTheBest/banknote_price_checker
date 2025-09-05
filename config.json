@@ -6,5 +6,13 @@
     "search_params": ["A2442", "A2681"],
     "exclude_params": [],
     "city": ""
+  },
+  {
+    "title": "Iphone Results",
+    "filter": "filter-products?per_page=120&search=iphone+15&min_price=0&max_price=9500&item_conditions=0,2,1",
+    "max_price": 500,
+    "search_params": ["Iphone 15"],
+    "exclude_params": ["Pro"],
+    "city": ""
   }
 ]
