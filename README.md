@@ -5,7 +5,7 @@ This tool checks prices for products on veikals.banknote.lv using custom filters
 ## Generated Reports
 
 - [Iphone Results](./results/iphone_results.html)
-- [MacBook Results](./results/macbook_results.html)
+- [MacBook Results](./results/mac_book_results.html)
 
 # Banknote Price Checker
 
