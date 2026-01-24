@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "open-macbook": "node open-macbook.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

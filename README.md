@@ -7,9 +7,6 @@ This tool checks prices for products on veikals.banknote.lv using custom filters
 - [Iphone Results](./results/iphone_results.html)
 - [MacBook Results](./results/mac_book_results.html)
 
-# Banknote Price Checker
-
-This project automatically checks for product prices on banknote.lv and
 ## Installation
 
 1. **Clone or download this repository.**
@@ -44,6 +41,12 @@ docker-compose up -d
 ```sh
 docker-compose down
 ```
+
+### Option 3: Automated GitHub Actions
+The repository includes a GitHub Actions workflow that automatically runs the price checker:
+- **Scheduled**: Runs daily at 5:00 AM UTC (configured via cron)
+- **On Push**: Runs automatically when changes are pushed to the `main` branch
+- **Manual**: Can be triggered manually via GitHub Actions UI
 
 Results will be saved in the `results/` directory, with one file per config entry.
 
