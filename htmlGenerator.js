@@ -152,4 +152,109 @@ function generateHtmlTable(title, results) {
 </html>`;
 }
 
-module.exports = { generateHtmlTable };
+function generateIndexPage(config) {
+  // Helper function to convert title to snake_case file name (same logic as index.js)
+  function toSnakeCase(str) {
+    return str
+      .replace(/[^a-zA-Z0-9 ]/g, '')
+      .replace(/\s+/g, '_')
+      .replace(/([a-z])([A-Z])/g, '$1_$2')
+      .toLowerCase()
+      .replace(/_+/g, '_')
+      .replace(/^_+|_+$/g, '');
+  }
+
+  // Generate report links from config
+  const reportLinks = config.map(entry => {
+    const baseName = toSnakeCase(entry.title.replace(/results?/i, ''));
+    const htmlFileName = `results/${baseName}_results.html`;
+    return {
+      title: entry.title,
+      url: htmlFileName
+    };
+  });
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banknote Price Checker - Reports</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 2em; 
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 { 
+      color: #333; 
+      border-bottom: 2px solid #0074d9;
+      padding-bottom: 0.5em;
+    }
+    .description {
+      color: #666;
+      margin-bottom: 2em;
+      line-height: 1.6;
+    }
+    .reports-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5em;
+      margin-top: 2em;
+    }
+    .report-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1.5em;
+      background: #fafafa;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .report-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: #fff;
+    }
+    .report-card h2 {
+      margin-top: 0;
+      color: #0074d9;
+      font-size: 1.3em;
+    }
+    .report-card a {
+      display: inline-block;
+      margin-top: 1em;
+      color: #0074d9;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5em 1em;
+      border: 1px solid #0074d9;
+      border-radius: 4px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .report-card a:hover {
+      background-color: #0074d9;
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Banknote Price Checker</h1>
+  <div class="description">
+    <p>This tool checks prices for products on veikals.banknote.lv using custom filters and outputs results in both JSON and HTML formats.</p>
+    <p>Select a report below to view the detailed results:</p>
+  </div>
+  <div class="reports-container">
+    ${reportLinks.map(report => `
+      <div class="report-card">
+        <h2>${report.title}</h2>
+        <a href="${report.url}">View Report →</a>
+      </div>
+    `).join('')}
+  </div>
+</body>
+</html>`;
+}
+
+module.exports = { generateHtmlTable, generateIndexPage };

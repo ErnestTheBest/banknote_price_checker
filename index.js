@@ -1,7 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const { generateHtmlTable } = require('./htmlGenerator');
+const { generateHtmlTable, generateIndexPage } = require('./htmlGenerator');
 
 const configPath = path.join(__dirname, 'config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -118,4 +118,13 @@ function toSnakeCase(str) {
     );
     console.log(`Results for '${entry.title}' saved to results/${fileName} and results/${htmlFileName}`);
   }
+  
+  // Generate index.html in root directory
+  const indexHtml = generateIndexPage(config);
+  fs.writeFileSync(
+    path.join(__dirname, 'index.html'),
+    indexHtml,
+    'utf-8'
+  );
+  console.log('Index page saved to index.html');
 })();
