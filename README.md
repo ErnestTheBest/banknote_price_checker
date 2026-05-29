@@ -4,8 +4,9 @@ This tool checks prices for products on veikals.banknote.lv using custom filters
 
 ## Generated Reports
 
-- [Iphone Results](./results/iphone_results.html)
 - [MacBook Results](./results/mac_book_results.html)
+- [iPhone 15 Results](./results/iphone_15_results.html)
+- [iPhone 17 Results](./results/iphone_17_results.html)
 
 ## Installation
 
