@@ -152,7 +152,7 @@ function generateHtmlTable(title, results) {
 </html>`;
 }
 
-function generateIndexPage(config) {
+function generateIndexPage(config, generatedAt = new Date()) {
   // Helper function to convert title to snake_case file name (same logic as index.js)
   function toSnakeCase(str) {
     return str
@@ -173,6 +173,22 @@ function generateIndexPage(config) {
       url: htmlFileName
     };
   });
+
+  const dateParts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      timeZone: 'Europe/Riga'
+    }).formatToParts(generatedAt).map(({ type, value }) => [type, value])
+  );
+  const generatedDate = `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
+  const displayDate = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Riga'
+  }).format(generatedAt);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -197,6 +213,12 @@ function generateIndexPage(config) {
       color: #666;
       margin-bottom: 2em;
       line-height: 1.6;
+    }
+    .last-updated {
+      color: #666;
+      font-size: 0.9em;
+      margin-top: -1em;
+      margin-bottom: 2em;
     }
     .reports-container {
       display: grid;
@@ -245,6 +267,7 @@ function generateIndexPage(config) {
     <p>This tool checks prices for products on veikals.banknote.lv using custom filters and outputs results in both JSON and HTML formats.</p>
     <p>Select a report below to view the detailed results:</p>
   </div>
+  <p class="last-updated">Last updated: <time datetime="${generatedDate}">${displayDate}</time></p>
   <div class="reports-container">
     ${reportLinks.map(report => `
       <div class="report-card">
@@ -254,7 +277,8 @@ function generateIndexPage(config) {
     `).join('')}
   </div>
 </body>
-</html>`;
+</html>
+`;
 }
 
 module.exports = { generateHtmlTable, generateIndexPage };
