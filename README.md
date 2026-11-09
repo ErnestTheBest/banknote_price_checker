@@ -85,8 +85,8 @@ Notes:
   {
     "title": "MacBook Results",
     "filter": "filter-products?per_page=120&search=MacBook&min_price=0&max_price=9500&sort=1&item_conditions=0,2,1",
-    "max_price": 500,
-    "search_params": ["a2337", "a2338", "m2", "m1", "m3", "m4"],
+    "max_price": 2500,
+    "search_params": ["A2442", "A2485", "A2779", "A2780", "A2992", "A2991", "A3185", "A3186", "A3427", "A3429"],
     "exclude_params": [],
     "city": "Rīga"
   }
